@@ -31,7 +31,20 @@ function StringSearch
 
 function SqlQuery 
 {
-    RunCommand -relativeScriptLocation '\SQL\sqlQuery.ps1'
+    param(
+    [string]$username,
+    [string]$password
+    )
+    
+    $path = $PSScriptRoot+"\.."+'\SQL\sqlQuery.ps1'
+
+    if($username -And $password){
+    write-host "username: " $username
+        . $path -username $username -password $password
+    }
+    else{
+        . $path
+    }
 }
 
 #Register Functions

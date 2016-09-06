@@ -6,12 +6,19 @@ param(
 [Parameter(Mandatory = $true)]
 [string]$serverInstance = "",
 [Parameter(Mandatory = $true)]
-[string]$dbName = ""
+[string]$dbName = "",
+[string]$username,
+[string]$password
 )
 $currentLocation = get-location
 
 $fullSQLQuery = "USE ["+$dbName+"];"+$sqlquery
-Write-Host $fullSQLQuery
-Invoke-Sqlcmd -Query $fullSQLQuery -ServerInstance $serverInstance
+
+if($username -And $password){
+    Invoke-Sqlcmd -Query $fullSQLQuery -ServerInstance $serverInstance -U $username -P $password
+}
+else{
+    Invoke-Sqlcmd -Query $fullSQLQuery -ServerInstance $serverInstance
+}
 
 cd $currentLocation
